@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- Ícono de flechita que redirige a la página home -->
+      <ion-button [routerLink]="['/home']">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- Título de la página -->
+    <ion-title>Publicación</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <!-- Formulario para crear las publicaciones -->
+  <form [formGroup]="formulario" (ngSubmit)="guardarPublicacion()">
+    <!-- Campo para el título de la publicación -->
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input formControlName="titulo"></ion-input>
+    </ion-item>
+    <!-- Mensajes de "Required y minLenght" para el campo de título -->
+    <ion-text color="danger" *ngIf="formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched">
+      <p *ngIf="formulario.get('titulo')?.errors?.['required']">El título es obligatorio.</p>
+      <p *ngIf="formulario.get('titulo')?.errors?.['minlength']">El título debe tener al menos 5 caracteres.</p>
+    </ion-text>
+    <!-- Campo para la descripción de la publicación -->
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea formControlName="descripcion"></ion-textarea>
+    </ion-item>
+    <!-- Mensajes de "Required y minLenght" para el campo de descripción -->
+    <ion-text color="danger" *ngIf="formulario.get('descripcion')?.invalid && formulario.get('descripcion')?.touched">
+      <p *ngIf="formulario.get('descripcion')?.errors?.['required']">La descripción es obligatoria.</p>
+      <p *ngIf="formulario.get('descripcion')?.errors?.['minlength']">La descripción debe tener al menos 20 caracteres.</p>
+    </ion-text>
+    <!-- Botón para capturar la foto (imagen) de la publicación -->
+    <ion-item>
+      <ion-button (click)="capturarFoto()">Capturar Foto</ion-button>
+    </ion-item>
+    <div *ngIf="foto">
+      <img [src]="foto" alt="Vista previa de la foto (Imagen)"/>
+    </div>
+    <!-- Botón para guardar la publicación -->
+    <ion-button expand="full" type="submit" [disabled]="formulario.invalid">GUARDAR</ion-button>
+  </form>
+</ion-content>
